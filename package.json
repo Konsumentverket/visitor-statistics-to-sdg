@@ -1,0 +1,13 @@
+{
+  "name": "gtmtosdg",
+  "version": "1.0.0",
+  "description": "Transforms Google analytics query requests to SDG format and sends it to the the commission",
+  "scripts": {
+    "start": "func start"
+  },
+  "dependencies": {
+    "googleapis": "^61.0.0",
+    "moment": "^2.29.1"
+  },
+  "devDependencies": {}
+}
