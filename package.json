@@ -6,6 +6,7 @@
     "start": "func start"
   },
   "dependencies": {
+    "axios": "^0.21.0",
     "googleapis": "^61.0.0",
     "moment": "^2.29.1"
   },
