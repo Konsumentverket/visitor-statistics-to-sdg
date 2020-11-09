@@ -1,0 +1,17 @@
+{
+  "bindings": [
+    {
+      "schedule": "0 0 3/24 * * *",
+      "name": "trigger",
+      "type": "timerTrigger",
+      "direction": "in"
+    }, {
+      "name": "sdgDeliveryLogItem",
+      "type": "cosmosDB",
+      "databaseName": "SdgDeliveryLog",
+      "collectionName": "Statistics",
+      "connectionStringSetting": "COSMOSDB_CONNECTIONSTRING",
+      "direction": "out"
+    }
+  ]
+}

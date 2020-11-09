@@ -10,8 +10,9 @@ Konfiguration av tjänsten sker genom 'Azure Configurations settings'.
 ```json
 {
     "SDG_API_KEY": "...",
-    "USE_SDG_ACCEPTENCE": true/false,
-    "GTM_xxx": "{data...}"
+    "USE_SDG_ACCEPTENCE": true or false,
+    "GTM_xxx": "{data...}",
+    "COSMOSDB_CONNECTIONSTRING": "... CosmosDB connectionstring ..."
 }
 ```
 
@@ -37,4 +38,21 @@ En sammanställning av de funktioner som finns
 Används för att kunna se den information som ska skickas till SDG APIet baserat på de konfigurationer som finns. Används för att debugga och gör det möjligt att se hur olika google frågor kommer se ut som konverterade till SDG format.
 
 ### Send
-Används för att testa skicka data till till SDG APIet.
+Används för att testa skicka data till till SDG APIet på ett sätt som inte loggas eller kräver något annat än vanliga http triggers.
+
+### Trigger
+En Azure Function med en 'timerTrigger' som körs i ett intervall en gång per dygn och skickar data till SDG apierna. Denna funktion loggar även det lyckade eller misslyckade resultatet av operationen i en Azure CosmosDB databas. Jobbet är inställt för att köras kl 3 på natten.
+
+Konfigurationen för CosmosDB återfinns i function.json för denna funktionen.  
+[Dokumentation av CosmosDB bindings](https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-cosmosdb-v2-output?tabs=javascript#configuration)
+```json
+{
+    "name": "sdgDeliveryLogItem",
+    "type": "cosmosDB",
+    "databaseName": "SdgDeliveryLog",
+    "collectionName": "Statistics",
+    "connectionStringSetting": "COSMOSDB_CONNECTIONSTRING",
+    "direction": "out"
+}
+```
+

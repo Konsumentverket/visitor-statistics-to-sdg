@@ -1,7 +1,6 @@
 const getConfiguration = require("../lib/getConfiguration")
 const formatGtmDataToSdg = require("../lib/formatGtmDataToSdg")
 const getGtmData = require("../lib/getGtmData")
-const sendToCommision = require("../lib/sendToCommision")
 const validateConfiguration = require("../lib/validateConfiguration")
 
 module.exports = async function (context, req) {

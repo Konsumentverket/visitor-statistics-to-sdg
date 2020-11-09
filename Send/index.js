@@ -1,19 +1,22 @@
 const getConfiguration = require("../lib/getConfiguration")
 const formatGtmDataToSdg = require("../lib/formatGtmDataToSdg")
 const getGtmData = require("../lib/getGtmData")
-const sendToCommision = require("../lib/sendToCommision")
 const validateConfiguration = require("../lib/validateConfiguration")
 const { getSdgUniqueId,postStatistics } = require("../lib/sdgClient")
 
 module.exports = async function (context, req) {
     try{
-        const configurations = getConfiguration(context)
-        validateConfiguration(configurations)
+        const configuration = getConfiguration(context)
+        validateConfiguration(configuration)
 
-        const gtmData = await getGtmData(context,configurations.gtmObjects)
-        const uniqueSdgId = await getSdgUniqueId(context,configurations)
+        if(!configuration.useAcceptence){
+            throw Error("Send only allowed to be used in acceptence testing mode")
+        }
+
+        const gtmData = await getGtmData(context,configuration.gtmObjects)
+        const uniqueSdgId = await getSdgUniqueId(context,configuration)
         const sdgFormated = formatGtmDataToSdg(context,gtmData,uniqueSdgId)
-        const postDataResponse = await postStatistics(context,sdgFormated,configurations)
+        const postDataResponse = await postStatistics(context,sdgFormated,configuration)
         context.res = {
             body: postDataResponse
         };
