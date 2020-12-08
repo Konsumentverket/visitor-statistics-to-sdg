@@ -4,6 +4,7 @@ const getGtmData = require("../lib/getGtmData")
 const validateConfiguration = require("../lib/validateConfiguration")
 const { getSdgUniqueId,postStatistics } = require("../lib/sdgClient")
 const moment = require("moment");
+const sendFailedNotification = require("../lib/sendFailedNotification")
 
 module.exports = async function (context, timer) {
     let useAcceptence;
@@ -29,9 +30,11 @@ module.exports = async function (context, timer) {
         });
     }
     catch(err){
+        const id = moment().format('YYYY-MM-DD hh:mm:ss')
+        const notificationSent = await sendFailedNotification(context,err,useAcceptence,id)
         context.log("Request failed!",err)
         context.bindings.sdgDeliveryLogItem = JSON.stringify({
-            id: moment().format('YYYY-MM-DD hh:mm:ss'),
+            id: id,
             success: false,
             message: JSON.stringify(err, Object.getOwnPropertyNames(err)),
             isPastDue: timer.isPastDue,
